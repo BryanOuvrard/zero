@@ -1,0 +1,216 @@
+<!doctype html>
+<!--
+  PREUVE PUBLIQUE N°1 — PILIER B.
+  Calculateur du coût annuel d'une tâche répétitive.
+  Utilisable en 30 secondes, sans inscription, sans cookie, sans requête réseau : tout est local.
+  Déployable tel quel sur Vercel / Cloudflare Pages (tier gratuit).
+  Un seul champ à remplir avant publication : bryan.ouvrard@gmail.com.
+  Publiable AVANT le SIRET : c'est un outil gratuit, il ne propose aucune prestation et n'affiche aucun prix.
+-->
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Combien vous coûte vraiment cette tâche répétitive ?</title>
+<meta name="description" content="Calculez en 30 secondes ce qu'une tâche répétitive coûte réellement à votre entreprise chaque année. Sans inscription, sans cookie.">
+<style>
+  :root{
+    --bg:#ffffff; --surface:#f6f7f9; --line:#e2e5ea;
+    --ink:#12151a; --muted:#5b6472; --accent:#1d4ed8; --accent-ink:#ffffff;
+    --warn:#9a5b00; --ok:#0f7b4f;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0e1116; --surface:#161b22; --line:#262d36;
+      --ink:#e8ecf1; --muted:#9aa4b2; --accent:#5b8cff; --accent-ink:#0e1116;
+      --warn:#e0a458; --ok:#4ade80;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0e1116; --surface:#161b22; --line:#262d36;
+    --ink:#e8ecf1; --muted:#9aa4b2; --accent:#5b8cff; --accent-ink:#0e1116;
+    --warn:#e0a458; --ok:#4ade80;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:680px;margin:0 auto;padding:48px 24px 64px}
+  h1{font-size:clamp(24px,4.5vw,34px);line-height:1.2;letter-spacing:-.02em;margin:0 0 12px}
+  .lead{color:var(--muted);margin:0 0 32px}
+  fieldset{border:1px solid var(--line);border-radius:12px;padding:20px;margin:0 0 20px;background:var(--surface)}
+  legend{padding:0 8px;font-weight:600;font-size:14px;color:var(--muted)}
+  label{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
+  .hint{color:var(--muted);font-size:13px;margin:0 0 10px;font-weight:400}
+  .row{margin:0 0 20px}
+  .row:last-child{margin-bottom:0}
+  input[type=number],select{
+    width:100%;padding:11px 12px;font:inherit;color:var(--ink);
+    background:var(--bg);border:1px solid var(--line);border-radius:9px
+  }
+  input:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+  .presets{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .presets button{
+    font:inherit;font-size:13px;padding:6px 12px;border-radius:999px;cursor:pointer;
+    background:var(--bg);color:var(--muted);border:1px solid var(--line)
+  }
+  .presets button:hover{border-color:var(--accent);color:var(--ink)}
+  .out{border:1px solid var(--line);border-radius:12px;padding:24px;background:var(--surface);margin:28px 0 0}
+  .big{font-size:clamp(30px,7vw,46px);font-weight:700;letter-spacing:-.03em;line-height:1.1;margin:0 0 4px}
+  .big small{font-size:15px;font-weight:500;color:var(--muted);letter-spacing:0}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px;margin:22px 0 0;
+    padding-top:20px;border-top:1px solid var(--line)}
+  .stat b{display:block;font-size:21px;letter-spacing:-.01em}
+  .stat span{color:var(--muted);font-size:13px}
+  .verdict{margin:22px 0 0;padding:16px 18px;border-radius:10px;border:1px solid var(--line);
+    border-left:3px solid var(--accent);background:var(--bg);font-size:15px}
+  .verdict.warn{border-left-color:var(--warn)}
+  .verdict.ok{border-left-color:var(--ok)}
+  .verdict b{display:block;margin-bottom:4px}
+  footer{margin-top:44px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+  a{color:var(--accent)}
+  .method{margin-top:28px}
+  .method summary{cursor:pointer;font-weight:600;font-size:15px}
+  .method p,.method li{color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Combien vous coûte vraiment cette tâche répétitive&nbsp;?</h1>
+<p class="lead">Trois chiffres, trente secondes. Rien n'est envoyé nulle part : le calcul se fait dans votre navigateur, et cette page ne dépose aucun cookie.</p>
+
+<form id="f" autocomplete="off">
+  <fieldset>
+    <legend>La tâche</legend>
+
+    <div class="row">
+      <label for="min">Durée de la tâche, à chaque fois</label>
+      <p class="hint">En minutes. Comptez le temps réel, interruptions comprises.</p>
+      <input type="number" id="min" min="1" max="960" step="1" value="20" inputmode="numeric">
+    </div>
+
+    <div class="row">
+      <label for="freq">Nombre de fois par semaine</label>
+      <p class="hint">Sur une semaine ordinaire, pas une semaine de pointe.</p>
+      <input type="number" id="freq" min="1" max="500" step="1" value="10" inputmode="numeric">
+      <div class="presets">
+        <button type="button" data-freq="1">1×/semaine</button>
+        <button type="button" data-freq="5">1×/jour</button>
+        <button type="button" data-freq="15">3×/jour</button>
+        <button type="button" data-freq="50">10×/jour</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <label for="cout">Coût horaire chargé de la personne qui la fait</label>
+      <p class="hint">Salaire brut + charges patronales, ramené à l'heure. Si vous ne savez pas, prenez un repère ci-dessous.</p>
+      <input type="number" id="cout" min="5" max="500" step="1" value="35" inputmode="numeric">
+      <div class="presets">
+        <button type="button" data-cout="26">Assistant·e administratif</button>
+        <button type="button" data-cout="35">Employé·e qualifié·e</button>
+        <button type="button" data-cout="52">Cadre</button>
+        <button type="button" data-cout="75">Dirigeant·e</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <label for="auto">Part de la tâche réellement automatisable</label>
+      <p class="hint">Presque jamais 100 %&nbsp;: il reste des cas particuliers et des contrôles humains.</p>
+      <select id="auto">
+        <option value="0.5">La moitié — beaucoup de jugement humain</option>
+        <option value="0.7" selected>70 % — quelques exceptions à traiter à la main</option>
+        <option value="0.85">85 % — tâche très régulière et bien cadrée</option>
+      </select>
+    </div>
+  </fieldset>
+</form>
+
+<div class="out" role="status" aria-live="polite">
+  <p class="big" id="euros">—</p>
+  <p class="big"><small id="sub">coût annuel de cette tâche</small></p>
+
+  <div class="stats">
+    <div class="stat"><b id="hSem">—</b><span>heures par semaine</span></div>
+    <div class="stat"><b id="hAn">—</b><span>heures par an</span></div>
+    <div class="stat"><b id="jours">—</b><span>jours de travail par an</span></div>
+    <div class="stat"><b id="gain">—</b><span>récupérable par an</span></div>
+  </div>
+
+  <div class="verdict" id="verdict"><b>Renseignez les champs</b>Le calcul se met à jour tout seul.</div>
+</div>
+
+<details class="method">
+  <summary>Comment c'est calculé, et ce que ça ne dit pas</summary>
+  <p><strong>Le calcul&nbsp;:</strong> durée × fréquence × 46 semaines travaillées (5 semaines de congés + jours fériés déduits) × coût horaire chargé. Le montant récupérable applique la part automatisable que vous avez choisie.</p>
+  <p><strong>Ce que ça ne dit pas&nbsp;:</strong> le coût d'une automatisation qui casse et que personne ne sait réparer, le temps de mise en place, ni la valeur de ce que la personne ferait à la place. Le vrai gain, c'est ce dernier point — et il ne se met pas dans un formulaire.</p>
+  <p><strong>Le repère honnête&nbsp;:</strong> sous 1&nbsp;500 € par an, une automatisation ne se rentabilise généralement pas. Mieux vaut supprimer la tâche, la regrouper, ou la laisser telle quelle.</p>
+</details>
+
+<footer>
+  <p>Outil gratuit, sans inscription, sans traceur, sans donnée collectée&nbsp;: tout reste dans votre navigateur.</p>
+  <p>Une question sur un cas précis&nbsp;? <a href="mailto:bryan.ouvrard@gmail.com?subject=Question%20sur%20le%20calculateur">Écrivez-moi</a>, je réponds.</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var SEM = 46; // semaines réellement travaillées
+  var el = function(id){ return document.getElementById(id); };
+  var f = { min: el('min'), freq: el('freq'), cout: el('cout'), auto: el('auto') };
+
+  var euro = new Intl.NumberFormat('fr-FR', {style:'currency', currency:'EUR', maximumFractionDigits:0});
+  var num  = new Intl.NumberFormat('fr-FR', {maximumFractionDigits:1});
+
+  function calc(){
+    var m = Math.max(0, +f.min.value || 0);
+    var n = Math.max(0, +f.freq.value || 0);
+    var c = Math.max(0, +f.cout.value || 0);
+    var part = +f.auto.value;
+
+    var hSem = (m * n) / 60;
+    var hAn  = hSem * SEM;
+    var cout = hAn * c;
+    var gain = cout * part;
+
+    el('euros').textContent = cout > 0 ? euro.format(cout) : '—';
+    el('hSem').textContent  = num.format(hSem) + ' h';
+    el('hAn').textContent   = num.format(hAn) + ' h';
+    el('jours').textContent = num.format(hAn / 7) + ' j';
+    el('gain').textContent  = gain > 0 ? euro.format(gain) : '—';
+
+    var v = el('verdict'), t, cls;
+    if (cout <= 0) {
+      t = '<b>Renseignez les champs</b>Le calcul se met à jour tout seul.'; cls = '';
+    } else if (cout < 1500) {
+      t = '<b>Ça ne vaut probablement pas une automatisation.</b>Sous 1 500 € par an, le temps de mise en place et de maintenance mange le gain. Regardez plutôt si la tâche peut être supprimée, regroupée ou faite moins souvent.';
+      cls = 'warn';
+    } else if (cout < 4000) {
+      t = '<b>Cas limite, à trancher au cas par cas.</b>Il y a un gain réel, mais il dépend beaucoup de la complexité. La question à se poser : cette tâche va-t-elle encore exister dans deux ans ? Si oui, ça se défend.';
+      cls = '';
+    } else {
+      t = '<b>Là, ça se rentabilise vite.</b>Vous récupérez ' + euro.format(gain) + ' par an, soit ' + num.format(hAn * part / 7) + ' jours de travail. Une automatisation de ce type se rembourse généralement en quelques semaines.';
+      cls = 'ok';
+    }
+    v.className = 'verdict ' + cls;
+    v.innerHTML = t;
+  }
+
+  Object.keys(f).forEach(function(k){
+    f[k].addEventListener('input', calc);
+    f[k].addEventListener('change', calc);
+  });
+
+  document.querySelectorAll('.presets button').forEach(function(b){
+    b.addEventListener('click', function(){
+      if (b.dataset.freq) f.freq.value = b.dataset.freq;
+      if (b.dataset.cout) f.cout.value = b.dataset.cout;
+      calc();
+    });
+  });
+
+  calc();
+})();
+</script>
+</body>
+</html>

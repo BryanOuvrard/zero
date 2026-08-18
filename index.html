@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bryan Ouvrard — outils</title>
+<meta name="description" content="Outils gratuits autour de l'automatisation des tâches répétitives. Rien à installer, rien à créer, aucune donnée collectée.">
+<style>
+  :root{
+    --bg:#ffffff; --surface:#f6f7f9; --line:#e2e5ea;
+    --ink:#12151a; --muted:#5b6472; --accent:#1d4ed8; --accent-ink:#ffffff;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0e1116; --surface:#161b22; --line:#262d36;
+      --ink:#e8ecf1; --muted:#9aa4b2; --accent:#5b8cff; --accent-ink:#0e1116;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0e1116; --surface:#161b22; --line:#262d36;
+    --ink:#e8ecf1; --muted:#9aa4b2; --accent:#5b8cff; --accent-ink:#0e1116;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased}
+  .wrap{max-width:620px;margin:0 auto;padding:80px 24px 64px}
+  h1{font-size:clamp(26px,5vw,36px);line-height:1.15;letter-spacing:-.02em;margin:0 0 16px}
+  p{margin:0 0 18px}
+  .lead{font-size:18px;color:var(--muted)}
+  .card{display:block;text-decoration:none;color:inherit;background:var(--surface);
+    border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin:28px 0 0}
+  .card:hover{border-color:var(--accent)}
+  .card h2{font-size:18px;margin:0 0 6px}
+  .card p{margin:0;color:var(--muted);font-size:15px}
+  .card span{display:inline-block;margin-top:12px;color:var(--accent);font-weight:600;font-size:15px}
+  footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+  a{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Des outils pour les tâches qui se répètent.</h1>
+  <p class="lead">Gratuits, sans inscription, sans compte à créer. Tout se calcule dans votre navigateur :
+  aucune donnée n'est envoyée, aucun cookie n'est déposé.</p>
+
+  <a class="card" href="outil-cout-tache/">
+    <h2>Combien vous coûte vraiment une tâche répétitive ?</h2>
+    <p>Trois chiffres, trente secondes. Le coût annuel réel d'une tâche, en euros et en jours de travail —
+    et une réponse honnête sur le fait qu'elle vaille une automatisation ou non.</p>
+    <span>Ouvrir l'outil →</span>
+  </a>
+
+  <footer>
+    <p>Bryan Ouvrard — EI · <a href="mailto:bryan.ouvrard@gmail.com">bryan.ouvrard@gmail.com</a></p>
+    <p>Ces pages ne déposent aucun cookie et n'utilisent aucun traceur.</p>
+  </footer>
+</div>
+</body>
+</html>
