@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tout le pack d'un épisode de podcast, depuis un fichier audio</title>
+<meta name="description" content="Transcription, chapitres, notes d'épisode et extraits pour les réseaux, depuis votre audio. Achat unique, pas d'abonnement, votre propre clé API.">
+<style>
+  :root{
+    --bg:#ffffff; --surface:#f6f7f9; --line:#e2e5ea;
+    --ink:#12151a; --muted:#5b6472; --accent:#1d4ed8; --accent-ink:#ffffff;
+    --ok:#0f7b4f; --warn:#9a5b00;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0e1116; --surface:#161b22; --line:#262d36;
+      --ink:#e8ecf1; --muted:#9aa4b2; --accent:#5b8cff; --accent-ink:#0e1116;
+      --ok:#4ade80; --warn:#e0a458;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0e1116; --surface:#161b22; --line:#262d36;
+    --ink:#e8ecf1; --muted:#9aa4b2; --accent:#5b8cff; --accent-ink:#0e1116;
+    --ok:#4ade80; --warn:#e0a458;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased}
+  .wrap{max-width:700px;margin:0 auto;padding:0 24px}
+  header{padding:64px 0 8px}
+  .kicker{color:var(--muted);font-size:14px;margin:0 0 14px}
+  h1{font-size:clamp(27px,5vw,42px);line-height:1.15;letter-spacing:-.02em;margin:0 0 18px}
+  h2{font-size:clamp(19px,3vw,25px);line-height:1.25;letter-spacing:-.01em;margin:52px 0 14px}
+  h3{font-size:16px;margin:0 0 6px}
+  p{margin:0 0 16px}
+  .lead{font-size:19px;color:var(--muted)}
+  .price{display:inline-flex;align-items:baseline;gap:10px;flex-wrap:wrap;background:var(--surface);
+    border:1px solid var(--line);border-radius:12px;padding:14px 20px;margin:6px 0 22px}
+  .price b{font-size:30px;letter-spacing:-.02em}
+  .price span{color:var(--muted);font-size:15px}
+  .cta{display:inline-block;background:var(--accent);color:var(--accent-ink);text-decoration:none;
+    font-weight:600;padding:14px 26px;border-radius:10px;border:1px solid transparent}
+  .cta:hover{filter:brightness(1.08)}
+  .cta-note{color:var(--muted);font-size:14px;margin-top:12px}
+  ol.steps{counter-reset:s;list-style:none;padding:0;margin:0}
+  ol.steps li{counter-increment:s;position:relative;padding:0 0 22px 46px;
+    border-left:2px solid var(--line);margin-left:14px}
+  ol.steps li:last-child{border-left-color:transparent;padding-bottom:0}
+  ol.steps li::before{content:counter(s);position:absolute;left:-16px;top:-2px;width:30px;height:30px;
+    display:grid;place-items:center;border-radius:50%;background:var(--accent);color:var(--accent-ink);
+    font-size:14px;font-weight:700}
+  ol.steps p{margin:0;color:var(--muted);font-size:15px}
+  table{width:100%;border-collapse:collapse;margin:0 0 16px;font-size:15px}
+  th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--muted);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.04em}
+  td:first-child{font-weight:600}
+  .tw{overflow-x:auto}
+  .callout{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);
+    border-radius:0 12px 12px 0;padding:20px 22px;margin:24px 0}
+  .callout.warn{border-left-color:var(--warn)}
+  .callout p:last-child{margin:0}
+  details{border-bottom:1px solid var(--line);padding:14px 0}
+  details summary{cursor:pointer;font-weight:600;list-style:none}
+  details summary::-webkit-details-marker{display:none}
+  details summary::before{content:"+ ";color:var(--accent);font-weight:700}
+  details[open] summary::before{content:"– "}
+  details p{margin:12px 0 0;color:var(--muted)}
+  footer{margin:64px 0 48px;padding-top:22px;border-top:1px solid var(--line);
+    color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="kicker">Pour les podcasteurs et les créateurs de vidéos longues</p>
+  <h1>Un fichier audio entre. Transcription, chapitres, notes et extraits sortent.</h1>
+  <p class="lead">Le travail de mise en forme d'un épisode, fait en une fois. Sans abonnement, et sans qu'un seul fichier parte sur un serveur qui ne vous appartient pas.</p>
+
+  <div class="price"><b>39 €</b><span>une fois. Pas par mois, pas par épisode.</span></div>
+
+  <div class="callout warn">
+    <p><strong>L'outil n'existe pas encore — et c'est volontairement dit ici.</strong> Je le construis
+    seulement si assez de gens le veulent. Le bouton ci-dessous ne débite rien : il inscrit à la liste
+    de lancement. Si l'outil ne se fait pas, vous recevrez un message qui le dit, et rien d'autre.</p>
+  </div>
+
+  <a class="cta" href="https://docs.google.com/forms/d/e/1FAIpQLScyuqTIclHX2U8Td9B90R_QGIVddeL16_k6Vaq3kEQqLtrb8A/viewform">Prévenez-moi au lancement</a>
+  <p class="cta-note">Vous serez prévenu en premier, avec le tarif de lancement. Un message, pas une newsletter.</p>
+</header>
+
+<h2>Le problème</h2>
+<p>Publier un épisode, ce n'est pas l'enregistrer. C'est ensuite écrire la transcription, découper les chapitres, rédiger les notes, sortir le résumé, et trouver les cinq moments qui feront des extraits. Ce travail-là se paie <strong>100 à 300 € par épisode</strong> quand on le délègue.</p>
+<p>Quand on ne le délègue pas, on prend un outil tout-en-un à l'abonnement. Et on le paie aussi les mois où l'on ne publie rien — ce qui, pour un podcast indépendant, arrive plus souvent qu'on ne l'admet.</p>
+
+<h2>Ce que fait l'outil</h2>
+<ol class="steps">
+  <li><h3>Vous déposez votre audio</h3><p>Directement dans la page. Le fichier reste sur votre machine.</p></li>
+  <li><h3>Vous collez votre propre clé API</h3><p>Vous payez le fournisseur au tarif public, sans intermédiaire et sans marge. Comptez quelques dizaines de centimes par épisode.</p></li>
+  <li><h3>Vous récupérez le pack complet</h3><p>Transcription horodatée, chapitres, notes d'épisode, résumé, et 5 extraits prêts à publier. En texte, réutilisable partout.</p></li>
+</ol>
+
+<h2>Pourquoi un achat unique et pas un abonnement</h2>
+<div class="tw">
+<table>
+  <tr><th></th><th>Abonnement classique</th><th>Cet outil</th></tr>
+  <tr><td>Ce que vous payez</td><td>15 à 50 € par mois, indéfiniment</td><td>39 € une fois</td></tr>
+  <tr><td>Les mois sans publier</td><td>Vous payez quand même</td><td>Vous ne payez rien</td></tr>
+  <tr><td>Le coût de l'IA</td><td>Inclus, avec une marge que vous ne voyez pas</td><td>Votre clé, tarif public, sans marge</td></tr>
+  <tr><td>Vos fichiers</td><td>Téléversés sur leurs serveurs</td><td>Ils ne quittent pas votre navigateur</td></tr>
+  <tr><td>Si vous arrêtez</td><td>Vous perdez l'accès</td><td>L'outil reste à vous</td></tr>
+</table>
+</div>
+<p>Un acheteur qui découvre qu'un outil à 30 € par mois tourne sur quelques centimes d'appels d'API ne voit plus un logiciel : il voit un impôt. C'est le seul argument de cette page, et il suffit.</p>
+
+<h2>Ce que cet outil ne fait pas</h2>
+<p>Il ne monte pas votre audio, il ne supprime pas les blancs, il ne remplace pas un monteur qui connaît votre émission. Il fait la partie répétitive : celle qui est identique à chaque épisode et qui vous prend deux heures à chaque fois.</p>
+<p>Si vous publiez un épisode par an, il ne vaut pas 39 €. Si vous en publiez un par semaine, il est remboursé au premier.</p>
+
+<h2>Questions</h2>
+<details><summary>Qu'est-ce qu'une clé API et comment j'en obtiens une ?</summary><p>C'est un code que vous créez en deux minutes chez un fournisseur d'IA, et qui vous facture directement ce que vous consommez. Le mode d'emploi sera fourni, captures à l'appui. Si cette étape vous rebute, dites-le dans le formulaire : c'est exactement le genre de retour qui décide si l'outil se fait ou pas.</p></details>
+<details><summary>Mes enregistrements sont confidentiels.</summary><p>Le fichier ne transite par aucun serveur qui m'appartient : il va de votre navigateur directement au fournisseur dont vous détenez la clé. Je n'ai accès à rien, et il n'y a aucun compte à créer.</p></details>
+<details><summary>Pourquoi vous demandez mon email si l'outil n'existe pas ?</summary><p>Parce que je ne construirai que ce que des gens attendent vraiment. Votre inscription est le vote qui décide. S'il n'y en a pas assez d'ici le 2 septembre, j'abandonne et je vous envoie un message pour vous le dire.</p></details>
+
+<div class="callout">
+  <p><strong>Si vous publiez régulièrement, inscrivez-vous : c'est ce qui décidera si l'outil existe.</strong></p>
+  <p style="margin-top:14px"><a class="cta" href="https://docs.google.com/forms/d/e/1FAIpQLScyuqTIclHX2U8Td9B90R_QGIVddeL16_k6Vaq3kEQqLtrb8A/viewform">Prévenez-moi au lancement</a></p>
+</div>
+
+<footer>
+  <p>Page de test. L'outil est en cours de validation, aucun paiement n'est possible ni demandé à ce stade.</p>
+  <p>Cette page ne dépose aucun cookie et n'utilise aucun traceur.</p>
+</footer>
+
+</div>
+</body>
+</html>

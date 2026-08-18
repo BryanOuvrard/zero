@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anonymiser un document avant de le donner à une IA</title>
+<meta name="description" content="Remplace noms, emails, téléphones, IBAN et adresses par des étiquettes, puis restaure les vraies valeurs dans la réponse. Rien ne quitte votre navigateur.">
+<style>
+  :root{
+    --bg:#ffffff; --surface:#f6f7f9; --line:#e2e5ea;
+    --ink:#12151a; --muted:#5b6472; --accent:#7c3aed; --accent-ink:#ffffff;
+    --ok:#0f7b4f; --warn:#9a5b00;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0e1116; --surface:#161b22; --line:#262d36;
+      --ink:#e8ecf1; --muted:#9aa4b2; --accent:#a78bfa; --accent-ink:#0e1116;
+      --ok:#4ade80; --warn:#e0a458;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0e1116; --surface:#161b22; --line:#262d36;
+    --ink:#e8ecf1; --muted:#9aa4b2; --accent:#a78bfa; --accent-ink:#0e1116;
+    --ok:#4ade80; --warn:#e0a458;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased}
+  .wrap{max-width:700px;margin:0 auto;padding:0 24px}
+  header{padding:64px 0 8px}
+  .kicker{color:var(--muted);font-size:14px;margin:0 0 14px}
+  h1{font-size:clamp(27px,5vw,42px);line-height:1.15;letter-spacing:-.02em;margin:0 0 18px}
+  h2{font-size:clamp(19px,3vw,25px);line-height:1.25;letter-spacing:-.01em;margin:52px 0 14px}
+  h3{font-size:16px;margin:0 0 6px}
+  p{margin:0 0 16px}
+  .lead{font-size:19px;color:var(--muted)}
+  .price{display:inline-flex;align-items:baseline;gap:10px;flex-wrap:wrap;background:var(--surface);
+    border:1px solid var(--line);border-radius:12px;padding:14px 20px;margin:6px 0 22px}
+  .price b{font-size:30px;letter-spacing:-.02em}
+  .price span{color:var(--muted);font-size:15px}
+  .cta{display:inline-block;background:var(--accent);color:var(--accent-ink);text-decoration:none;
+    font-weight:600;padding:14px 26px;border-radius:10px;border:1px solid transparent}
+  .cta:hover{filter:brightness(1.08)}
+  .cta-note{color:var(--muted);font-size:14px;margin-top:12px}
+  ol.steps{counter-reset:s;list-style:none;padding:0;margin:0}
+  ol.steps li{counter-increment:s;position:relative;padding:0 0 22px 46px;
+    border-left:2px solid var(--line);margin-left:14px}
+  ol.steps li:last-child{border-left-color:transparent;padding-bottom:0}
+  ol.steps li::before{content:counter(s);position:absolute;left:-16px;top:-2px;width:30px;height:30px;
+    display:grid;place-items:center;border-radius:50%;background:var(--accent);color:var(--accent-ink);
+    font-size:14px;font-weight:700}
+  ol.steps p{margin:0;color:var(--muted);font-size:15px}
+  table{width:100%;border-collapse:collapse;margin:0 0 16px;font-size:15px}
+  th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--muted);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.04em}
+  td:first-child{font-weight:600}
+  .tw{overflow-x:auto}
+  .callout{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);
+    border-radius:0 12px 12px 0;padding:20px 22px;margin:24px 0}
+  .callout.warn{border-left-color:var(--warn)}
+  .callout p:last-child{margin:0}
+  details{border-bottom:1px solid var(--line);padding:14px 0}
+  details summary{cursor:pointer;font-weight:600;list-style:none}
+  details summary::-webkit-details-marker{display:none}
+  details summary::before{content:"+ ";color:var(--accent);font-weight:700}
+  details[open] summary::before{content:"– "}
+  details p{margin:12px 0 0;color:var(--muted)}
+  footer{margin:64px 0 48px;padding-top:22px;border-top:1px solid var(--line);
+    color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="kicker">Pour ceux qui utilisent l'IA au travail sans avoir le droit d'y mettre les données clients</p>
+  <h1>Vous avez le droit d'utiliser l'IA. Pas d'y coller les données de vos clients.</h1>
+  <p class="lead">Cet outil remplace les noms, emails, téléphones et IBAN par des étiquettes avant que vous ne colliez le texte, puis remet les vraies valeurs dans la réponse. Le texte réel ne quitte jamais votre navigateur.</p>
+
+  <div class="price"><b>19 €</b><span>une fois. Rien à installer, rien à renouveler.</span></div>
+
+  <div class="callout warn">
+    <p><strong>L'outil n'existe pas encore — et c'est volontairement dit ici.</strong> Je le construis
+    seulement si assez de gens le veulent. Le bouton ci-dessous ne débite rien : il inscrit à la liste
+    de lancement. Si l'outil ne se fait pas, vous recevrez un message qui le dit, et rien d'autre.</p>
+  </div>
+
+  <a class="cta" href="https://docs.google.com/forms/d/e/1FAIpQLScyuqTIclHX2U8Td9B90R_QGIVddeL16_k6Vaq3kEQqLtrb8A/viewform">Prévenez-moi au lancement</a>
+  <p class="cta-note">Un message au lancement. Si l'outil ne se fait pas, un message pour le dire aussi.</p>
+</header>
+
+<h2>Le problème</h2>
+<p>La consigne est claire dans de plus en plus d'entreprises : on n'envoie pas de données clients à un service d'IA externe. L'usage, lui, ne recule pas — parce que l'outil fait vraiment gagner des heures.</p>
+<p>Entre les deux, il y a deux comportements, et aucun n'est bon. Soit on colle quand même, en espérant que personne ne regarde. Soit on renonce, et on refait à la main un travail que la machine ferait en trente secondes.</p>
+
+<h2>Ce que fait l'outil</h2>
+<ol class="steps">
+  <li><h3>Vous collez votre texte</h3><p>Un email, un compte rendu, un contrat, un ticket. Tout se passe dans la page : rien n'est envoyé, rien n'est enregistré.</p></li>
+  <li><h3>L'outil remplace ce qui identifie</h3><p>Noms, prénoms, emails, téléphones, IBAN, adresses, numéros de dossier deviennent [CLIENT_1], [EMAIL_2], [IBAN_1]. Vous voyez la liste et vous pouvez corriger avant de copier.</p></li>
+  <li><h3>Vous recollez la réponse de l'IA</h3><p>L'outil remet les vraies valeurs à la place des étiquettes. Vous récupérez un texte utilisable, où le service d'IA n'aura jamais vu un seul nom réel.</p></li>
+</ol>
+
+<h2>Les trois façons de faire aujourd'hui</h2>
+<div class="tw">
+<table>
+  <tr><th></th><th>Ce que ça coûte</th><th>Ce que ça risque</th></tr>
+  <tr><td>Coller tel quel</td><td>Rien, et ça va vite</td><td>Des données clients chez un tiers, hors de tout cadre</td></tr>
+  <tr><td>Anonymiser à la main</td><td>10 à 20 minutes par document</td><td>Un oubli suffit, et on oublie toujours</td></tr>
+  <tr><td>Renoncer à l'IA</td><td>Des heures perdues</td><td>Rien — sauf le temps</td></tr>
+</table>
+</div>
+<p>Cet outil ajoute une quatrième ligne : trente secondes, et rien qui sorte.</p>
+
+<h2>Ce que je ne vous promets pas</h2>
+<p>Aucun outil de détection automatique n'attrape 100 % des données identifiantes. Un surnom, une tournure, un détail de contexte peuvent identifier quelqu'un sans qu'aucun nom n'apparaisse. C'est pour ça que la liste des remplacements vous est montrée avant que vous ne copiiez : la dernière vérification vous appartient.</p>
+<p>Je préfère le dire sur la page de vente plutôt que dans une note de bas de page après l'achat. Un outil de confidentialité qui exagère ce qu'il sait faire est pire que pas d'outil du tout.</p>
+
+<h2>Questions</h2>
+<details><summary>Ça marche avec quel service d'IA ?</summary><p>Tous, sans exception : l'outil ne parle à aucun service. Il transforme du texte avant, et le retransforme après. Ce que vous faites entre les deux ne le regarde pas.</p></details>
+<details><summary>Les étiquettes restent-elles cohérentes ?</summary><p>Oui. Le même nom reçoit toujours la même étiquette dans un même document, ce qui permet à l'IA de comprendre qui fait quoi sans jamais savoir de qui il s'agit.</p></details>
+<details><summary>Le texte est-il conservé quelque part ?</summary><p>Nulle part. Pas de serveur, pas de compte, pas d'historique. Fermez l'onglet et il ne reste rien — y compris pour moi.</p></details>
+
+<div class="callout">
+  <p><strong>Si la consigne existe chez vous et que vous n'avez pas de solution propre, inscrivez-vous : je saurai que le problème est réel.</strong></p>
+  <p style="margin-top:14px"><a class="cta" href="https://docs.google.com/forms/d/e/1FAIpQLScyuqTIclHX2U8Td9B90R_QGIVddeL16_k6Vaq3kEQqLtrb8A/viewform">Prévenez-moi au lancement</a></p>
+</div>
+
+<footer>
+  <p>Page de test. L'outil est en cours de validation, aucun paiement n'est possible ni demandé à ce stade. Cet outil est une aide technique et ne constitue pas un conseil juridique en matière de protection des données.</p>
+  <p>Cette page ne dépose aucun cookie et n'utilise aucun traceur.</p>
+</footer>
+
+</div>
+</body>
+</html>

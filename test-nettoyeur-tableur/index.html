@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nettoyer un fichier Excel sale sans qu'il quitte votre ordinateur</title>
+<meta name="description" content="Doublons, dates incohérentes, noms en majuscules, colonnes collées : corrigés en un passage. Le fichier ne quitte jamais votre navigateur.">
+<style>
+  :root{
+    --bg:#ffffff; --surface:#f6f7f9; --line:#e2e5ea;
+    --ink:#12151a; --muted:#5b6472; --accent:#0f7b4f; --accent-ink:#ffffff;
+    --ok:#0f7b4f; --warn:#9a5b00;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0e1116; --surface:#161b22; --line:#262d36;
+      --ink:#e8ecf1; --muted:#9aa4b2; --accent:#4ade80; --accent-ink:#0e1116;
+      --ok:#4ade80; --warn:#e0a458;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0e1116; --surface:#161b22; --line:#262d36;
+    --ink:#e8ecf1; --muted:#9aa4b2; --accent:#4ade80; --accent-ink:#0e1116;
+    --ok:#4ade80; --warn:#e0a458;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased}
+  .wrap{max-width:700px;margin:0 auto;padding:0 24px}
+  header{padding:64px 0 8px}
+  .kicker{color:var(--muted);font-size:14px;margin:0 0 14px}
+  h1{font-size:clamp(27px,5vw,42px);line-height:1.15;letter-spacing:-.02em;margin:0 0 18px}
+  h2{font-size:clamp(19px,3vw,25px);line-height:1.25;letter-spacing:-.01em;margin:52px 0 14px}
+  h3{font-size:16px;margin:0 0 6px}
+  p{margin:0 0 16px}
+  .lead{font-size:19px;color:var(--muted)}
+  .price{display:inline-flex;align-items:baseline;gap:10px;flex-wrap:wrap;background:var(--surface);
+    border:1px solid var(--line);border-radius:12px;padding:14px 20px;margin:6px 0 22px}
+  .price b{font-size:30px;letter-spacing:-.02em}
+  .price span{color:var(--muted);font-size:15px}
+  .cta{display:inline-block;background:var(--accent);color:var(--accent-ink);text-decoration:none;
+    font-weight:600;padding:14px 26px;border-radius:10px;border:1px solid transparent}
+  .cta:hover{filter:brightness(1.08)}
+  .cta-note{color:var(--muted);font-size:14px;margin-top:12px}
+  ol.steps{counter-reset:s;list-style:none;padding:0;margin:0}
+  ol.steps li{counter-increment:s;position:relative;padding:0 0 22px 46px;
+    border-left:2px solid var(--line);margin-left:14px}
+  ol.steps li:last-child{border-left-color:transparent;padding-bottom:0}
+  ol.steps li::before{content:counter(s);position:absolute;left:-16px;top:-2px;width:30px;height:30px;
+    display:grid;place-items:center;border-radius:50%;background:var(--accent);color:var(--accent-ink);
+    font-size:14px;font-weight:700}
+  ol.steps p{margin:0;color:var(--muted);font-size:15px}
+  table{width:100%;border-collapse:collapse;margin:0 0 16px;font-size:15px}
+  th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--muted);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.04em}
+  td:first-child{font-weight:600}
+  .tw{overflow-x:auto}
+  .callout{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);
+    border-radius:0 12px 12px 0;padding:20px 22px;margin:24px 0}
+  .callout.warn{border-left-color:var(--warn)}
+  .callout p:last-child{margin:0}
+  details{border-bottom:1px solid var(--line);padding:14px 0}
+  details summary{cursor:pointer;font-weight:600;list-style:none}
+  details summary::-webkit-details-marker{display:none}
+  details summary::before{content:"+ ";color:var(--accent);font-weight:700}
+  details[open] summary::before{content:"– "}
+  details p{margin:12px 0 0;color:var(--muted)}
+  footer{margin:64px 0 48px;padding-top:22px;border-top:1px solid var(--line);
+    color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="kicker">Pour ceux qui reçoivent des fichiers qu'ils n'ont pas produits</p>
+  <h1>Ce fichier Excel est sale. Il sera propre dans trente secondes, et il n'aura pas quitté votre ordinateur.</h1>
+  <p class="lead">Doublons, dates dans quatre formats, noms en capitales, numéros de téléphone écrits de six façons, colonnes collées. Corrigés en un passage, sans rien téléverser nulle part.</p>
+
+  <div class="price"><b>24 €</b><span>une fois, pour toujours. Aucun abonnement.</span></div>
+
+  <div class="callout warn">
+    <p><strong>L'outil n'existe pas encore — et c'est volontairement dit ici.</strong> Je le construis
+    seulement si assez de gens le veulent. Le bouton ci-dessous ne débite rien : il inscrit à la liste
+    de lancement. Si l'outil ne se fait pas, vous recevrez un message qui le dit, et rien d'autre.</p>
+  </div>
+
+  <a class="cta" href="https://docs.google.com/forms/d/e/1FAIpQLScyuqTIclHX2U8Td9B90R_QGIVddeL16_k6Vaq3kEQqLtrb8A/viewform">Prévenez-moi au lancement</a>
+  <p class="cta-note">Un seul message au lancement, avec le tarif réservé aux premiers inscrits.</p>
+</header>
+
+<h2>Le problème</h2>
+<p>Le fichier arrive d'un client, d'un fournisseur, d'un export d'un vieux logiciel. Personne ne l'a conçu pour vous. Alors vous passez quarante minutes à supprimer des doublons qui n'en ont pas l'air, à uniformiser des dates, à remettre des noms en minuscules, à séparer une colonne qui contient trois informations.</p>
+<p>Ce travail est parmi les plus délégués et les plus payés en freelance, précisément parce qu'il est répétitif et qu'il ne se pense pas. Et la plupart des outils qui le font demandent de téléverser le fichier chez eux — ce qui, avec un fichier client, pose une question que personne n'a envie de poser à son responsable.</p>
+
+<h2>Ce que fait l'outil</h2>
+<ol class="steps">
+  <li><h3>Vous déposez le fichier</h3><p>CSV ou Excel. Il est lu par votre navigateur, il n'est envoyé nulle part. L'outil fonctionne même sans connexion internet — c'est le test le plus simple pour vérifier que je dis vrai.</p></li>
+  <li><h3>Vous voyez ce qui va être corrigé</h3><p>Doublons repérés, formats de date détectés, colonnes à séparer, espaces invisibles. Vous cochez ce que vous acceptez, ligne par ligne si besoin.</p></li>
+  <li><h3>Vous retéléchargez le fichier propre</h3><p>Aux formats Excel ou CSV, avec un récapitulatif de ce qui a été modifié. L'original n'est jamais écrasé.</p></li>
+</ol>
+
+<h2>Ce que ça change</h2>
+<div class="tw">
+<table>
+  <tr><th></th><th>À la main</th><th>Avec l'outil</th></tr>
+  <tr><td>Un fichier de 2 000 lignes</td><td>30 à 60 minutes</td><td>Moins d'une minute</td></tr>
+  <tr><td>Le risque d'erreur</td><td>Élevé, et invisible</td><td>Chaque correction est listée</td></tr>
+  <tr><td>Vos données</td><td>Restent chez vous</td><td>Restent chez vous aussi</td></tr>
+  <tr><td>La fois suivante</td><td>À recommencer entièrement</td><td>Mêmes règles, un clic</td></tr>
+</table>
+</div>
+
+
+<h2>L'argument qui compte vraiment : rien ne sort</h2>
+<p>Un fichier de clients, ce sont des données personnelles. Le déposer sur un service en ligne dont on ne sait rien, c'est un transfert de données à un tiers — avec tout ce que cela implique, et une question désagréable à laquelle répondre si quelqu'un la pose.</p>
+<p>Ici, il n'y a pas de serveur. Le traitement se fait dans la page, sur votre machine. Vous pouvez couper votre connexion internet et l'outil continuera de fonctionner : c'est la seule preuve qui vaille, et elle prend dix secondes à vérifier.</p>
+
+<h2>Questions</h2>
+<details><summary>Quels formats sont acceptés ?</summary><p>CSV, XLSX et TSV. Les fichiers jusqu'à environ 50 000 lignes passent sans problème sur une machine ordinaire.</p></details>
+<details><summary>Et si l'outil corrige quelque chose qu'il ne fallait pas ?</summary><p>Rien n'est appliqué sans que vous l'ayez coché, et l'original n'est jamais modifié : vous téléchargez une copie nettoyée. Le récapitulatif liste chaque changement.</p></details>
+<details><summary>Pourquoi payer alors qu'il existe des convertisseurs gratuits ?</summary><p>Les gratuits font une chose à la fois et téléversent presque tous votre fichier. Ici, tout est fait en un passage, et rien ne part. Si le gratuit vous suffit, gardez-le : je préfère le dire plutôt que vous vendre quelque chose d'inutile.</p></details>
+
+<div class="callout">
+  <p><strong>Si vous nettoyez ce genre de fichier plus d'une fois par mois, inscrivez-vous — c'est ce qui décidera si l'outil se construit.</strong></p>
+  <p style="margin-top:14px"><a class="cta" href="https://docs.google.com/forms/d/e/1FAIpQLScyuqTIclHX2U8Td9B90R_QGIVddeL16_k6Vaq3kEQqLtrb8A/viewform">Prévenez-moi au lancement</a></p>
+</div>
+
+<footer>
+  <p>Page de test. L'outil est en cours de validation, aucun paiement n'est possible ni demandé à ce stade.</p>
+  <p>Cette page ne dépose aucun cookie et n'utilise aucun traceur.</p>
+</footer>
+
+</div>
+</body>
+</html>
