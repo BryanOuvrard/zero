@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 314 100" role="img" aria-label="Zer0">
+  <title>Zer0</title>
+  <g fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Z -->
+    <path d="M10 14 H70 L10 86 H70"/>
+    <!-- E -->
+    <path d="M146 14 H96 V86 H146"/>
+    <path d="M96 50 H134"/>
+    <!-- R -->
+    <path d="M172 86 V14 H196 A19 19 0 0 1 196 52 H172"/>
+    <path d="M196 52 L222 86"/>
+    <!-- 0 : anneau ouvert en haut -->
+    <circle cx="268" cy="50" r="36" stroke-dasharray="206 20" transform="rotate(-74 268 50)"/>
+  </g>
+</svg>
